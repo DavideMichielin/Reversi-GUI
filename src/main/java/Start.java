@@ -37,6 +37,10 @@ public class Start implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 System.exit(0);
             }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
         });
         help.addMouseListener(new MouseAdapter() {
             @Override
@@ -68,16 +72,19 @@ public class Start implements ActionListener {
         JPanel container = new JPanel(new GridBagLayout());
         frame.add(container, BorderLayout.CENTER);
         JPanel buttonMenu = new JPanel(new GridLayout(1, 3, 5, 10));
-        JButton oneVsOne = new JButton("2 Player Local");
-        JButton oneVsCPU = new JButton("vs Computer");
+        JButton oneVsOne = new JButton("1vs1");
+        JButton oneVsCPU = new JButton("vsComputer");
         JButton online = new JButton("Online");
         buttonMenu.add(oneVsOne);
         buttonMenu.add(oneVsCPU);
         buttonMenu.add(online);
         container.add(buttonMenu);
+        oneVsOne.addActionListener(this);
+        oneVsCPU.addActionListener(this);
         online.addActionListener(this);
-        frame.setLocationRelativeTo(null); //center of the screen
+
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null); //center of the screen
         frame.setUndecorated(true);
         frame.setResizable(false);
         frame.setTitle("Othello-Reversi Menu");
@@ -86,23 +93,17 @@ public class Start implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "2 Player Local":
+            case "1vs1":
                 new OneVsOne();
                 frame.setVisible(false);
                 break;
-            case "vs Computer":
+            case "vsComputer":
                 new OneVsCPU();
                 frame.setVisible(false);
                 break;
-            case "Onlinr":
+            case "Online":
                 new Online();
                 frame.setVisible(false);
-                break;
-            case "?":
-                JOptionPane.showMessageDialog(frame, "Descrizione del gioco");
-                break;
-            case "X":
-                System.exit(0);
                 break;
             default:
         }
