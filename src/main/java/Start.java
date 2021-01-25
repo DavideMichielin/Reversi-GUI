@@ -7,22 +7,39 @@ public class Start extends JFrame implements ActionListener{
     public Start() {
         setLocationRelativeTo(null); //center of the screen
         setSize(300,100);
-        setResizable(false);
+        //setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Othello-Reversi Menu");
         setLayout(new BorderLayout());
+        JPanel menuPannel = new JPanel(new GridLayout(1, 2));
+
+        add(menuPannel, BorderLayout.EAST);
+        JMenuBar menu = new JMenuBar();
+        menuPannel.add(menu);
+        //JMenu help = new JMenu("Help");
+        JMenuItem rules = new JMenuItem("Rule");
+        JMenuItem x = new JMenuItem("X");
+        //menu.add(help);
+        //help.add(rules);
+        menu.add(rules);
+        menu.add(x);
+        rules.addActionListener(this);
+        x.addActionListener(this);
+
+
+
         JPanel container = new JPanel(new GridBagLayout());
         add(container, BorderLayout.CENTER);
         JPanel buttonMenu = new JPanel(new GridLayout(1,3,5,10));
         JButton play = new JButton("Play");
-        JButton help = new JButton("Help");
+        //JButton help = new JButton("Help");
         JButton exit = new JButton("Exit");
         buttonMenu.add(play);
-        buttonMenu.add(help);
+        //buttonMenu.add(help);
         buttonMenu.add(exit);
         container.add(buttonMenu);
         play.addActionListener(this);
-        help.addActionListener(this);
+       // help.addActionListener(this);
         exit.addActionListener(this);
         setVisible(true);
         /*SpinnerModel value =
@@ -95,7 +112,7 @@ public class Start extends JFrame implements ActionListener{
                 Play p = new Play();
                 setVisible(false);
                 break;
-            case "Help":
+            case "Rule":
                 JOptionPane.showMessageDialog(this, "Descrizione del gioco");
                 break;
             case "Exit":
