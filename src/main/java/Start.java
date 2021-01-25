@@ -5,43 +5,53 @@ import java.awt.event.*;
 public class Start extends JFrame implements ActionListener{
 
     public Start() {
-        setLocationRelativeTo(null); //center of the screen
-        setSize(300,100);
-        //setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Othello-Reversi Menu");
-        setLayout(new BorderLayout());
-        JPanel menuPannel = new JPanel(new GridLayout(1, 2));
-
-        add(menuPannel, BorderLayout.EAST);
-        JMenuBar menu = new JMenuBar();
-        menuPannel.add(menu);
-        //JMenu help = new JMenu("Help");
-        JMenuItem rules = new JMenuItem("Rule");
-        JMenuItem x = new JMenuItem("X");
-        //menu.add(help);
-        //help.add(rules);
-        menu.add(rules);
-        menu.add(x);
-        rules.addActionListener(this);
-        x.addActionListener(this);
 
 
+        final JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JButton help = new JButton("?");
+        final JButton exit = new JButton("X");
+        topPanel.add(help);
+        topPanel.add(exit);
+        add(topPanel,BorderLayout.NORTH);
+
+        help.addActionListener(this);
+        exit.addActionListener(this);
 
         JPanel container = new JPanel(new GridBagLayout());
         add(container, BorderLayout.CENTER);
         JPanel buttonMenu = new JPanel(new GridLayout(1,3,5,10));
-        JButton play = new JButton("Play");
-        //JButton help = new JButton("Help");
-        JButton exit = new JButton("Exit");
-        buttonMenu.add(play);
-        //buttonMenu.add(help);
-        buttonMenu.add(exit);
+        JButton oneVsOne = new JButton("vs 2Player");
+        JButton oneVsCPU = new JButton("vs Computer");
+        JButton online = new JButton("Play");
+        buttonMenu.add(oneVsOne);
+        buttonMenu.add(oneVsCPU);
+        buttonMenu.add(online);
         container.add(buttonMenu);
-        play.addActionListener(this);
-       // help.addActionListener(this);
-        exit.addActionListener(this);
+        online.addActionListener(this);
+        setLocationRelativeTo(null); //center of the screen
+        setSize(500,300);
+        setUndecorated(true);
+        setResizable(false);
+        setTitle("Othello-Reversi Menu");
         setVisible(true);
+
+        //JPanel menuPannel = new JPanel(new GridLayout(1, 2));
+
+        //add(menuPannel, BorderLayout.EAST);
+        //JMenuBar menu = new JMenuBar();
+        //menuPannel.add(menu);
+        //JMenu help = new JMenu("Help");
+        //JMenuItem rules = new JMenuItem("Rule");
+        //JMenuItem x = new JMenuItem("X");
+        //menu.add(help);
+        //help.add(rules);
+        //menu.add(rules);
+        //menu.add(x);
+
+
+
+
+
         /*SpinnerModel value =
                 new SpinnerNumberModel(8,
                         4,
@@ -109,13 +119,13 @@ public class Start extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         switch(e.getActionCommand()){
             case "Play":
-                Play p = new Play();
+                new Play();
                 setVisible(false);
                 break;
-            case "Rule":
+            case "?":
                 JOptionPane.showMessageDialog(this, "Descrizione del gioco");
                 break;
-            case "Exit":
+            case "X":
                 System.exit(0);
                 break;
             default:
