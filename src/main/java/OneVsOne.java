@@ -13,26 +13,20 @@ public class OneVsOne {
     private int mouseY;
     public OneVsOne() {
         frame = new JFrame("Reversi/Othello Game - Local 2 Player");
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel containerTopPanel = new JPanel();
+        JPanel topPanelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel topPanelLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        topPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-            }
-        });
-        topPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
-        frame.add(topPanel, BorderLayout.NORTH);
-        topPanel.setBackground(Color.LIGHT_GRAY);
+        containerTopPanel.setLayout(new GridLayout(1,2));
+        containerTopPanel.add(topPanelLeft);
+        containerTopPanel.add(topPanelRight);
 
-        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        frame.add(backPanel, BorderLayout.WEST);
+        frame.add(containerTopPanel, BorderLayout.NORTH);
+        topPanelRight.setBackground(Color.LIGHT_GRAY);
+        topPanelLeft.setBackground(Color.LIGHT_GRAY);
+        topPanelRight.setSize(frame.getWidth()/2, 10);
+        topPanelLeft.setSize(frame.getWidth()/2, 10);
+
         final JLabel back = new JLabel("\u2190 Back");
         final JLabel help = new JLabel("?");
         final JLabel exit = new JLabel("X");
@@ -85,9 +79,9 @@ public class OneVsOne {
         help.setFont(new Font("Tahoma", Font.BOLD, 15));
         back.setSize(10, 5);
         back.setFont(new Font("Tahoma", Font.BOLD, 15));
-        topPanel.add(help);
-        topPanel.add(exit);
-        backPanel.add(back);
+        topPanelRight.add(help);
+        topPanelRight.add(exit);
+        topPanelLeft.add(back);
         // nomi dei due player
         // dimensioni
         // tipo di game
