@@ -4,19 +4,32 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.AttributedCharacterIterator;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class GUIGameManager extends JFrame {
     private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private boolean[][] diskIsPresent;
     private int numberOfMoves = 0;
+    private ArrayList<Point> point;
 
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
         graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
         diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
+        point = new ArrayList<Point>();
 
         showPlayer1Name = new JLabel(namePlayer1);
         showPlayer2Name = new JLabel(namePlayer2);
@@ -104,7 +117,18 @@ public class GUIGameManager extends JFrame {
         JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard));
         for(int indexRow = 0; indexRow < dimensionBoard; indexRow++ ){
             for(int indexColumn = 0; indexColumn < dimensionBoard; indexColumn++){
-                graphicBoard[indexRow][indexColumn]= new JPanel();
+                graphicBoard[indexRow][indexColumn] = new JPanel(){
+                    @Override
+                    public void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setColor(Color.red);
+                        for (Point p : point) {
+                            g2.fillOval(p.x, p.y, 20, 20);
+                        }
+                    }
+                };
                 graphicBoard[indexRow][indexColumn].setBorder(new LineBorder(Color.BLACK,3));
                 graphicBoard[indexRow][indexColumn].setBackground(Color.decode("#0E6B0E"));
                 final int indexR = indexRow, indexC = indexColumn;
@@ -120,7 +144,9 @@ public class GUIGameManager extends JFrame {
                                     JOptionPane.showMessageDialog(frame, "Invalid Position");
                                 }else{
                                     setCell(indexR, indexC);
-                                    JOptionPane.showMessageDialog(frame, "Ok");
+                                    point.add(new Point(indexR, indexC));
+                                    graphicBoard[indexR][indexC].getGraphics().fillOval(50, 50, 10, 10);
+                                    graphicBoard[indexR][indexC].repaint();
                                     numberOfMoves++;
                                 }
                             }
@@ -142,6 +168,7 @@ public class GUIGameManager extends JFrame {
 
         return boardPanel;
     }
+
 
     private boolean isSetDisk(final int x, final int y) {
         return diskIsPresent[x][y];
