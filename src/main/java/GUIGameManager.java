@@ -71,7 +71,8 @@ public class GUIGameManager extends JFrame {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
                 int sizeCell = 700/dimensionBoard;
-                for(int i = 0; i < dimensionBoard; i++){
+                for(int i = 1; i < dimensionBoard; i++){
+                    g2d.setColor(Color.BLACK);
                     g2d.setStroke(new BasicStroke(3));
                     g2d.drawLine(0, i*sizeCell, 700, i*sizeCell);
                     g2d.drawLine(i*sizeCell, 0, i*sizeCell, 700);
@@ -79,7 +80,6 @@ public class GUIGameManager extends JFrame {
 
             }
         };
-        int a = 0;
         boardPanel.setPreferredSize(new Dimension(700, 700));
         boardPanel.setBackground(Color.decode("#0E6B0E"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
