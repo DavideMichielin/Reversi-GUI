@@ -8,8 +8,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class GUIGameManager extends JFrame {
-
+    private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
+        showPlayer1Name = new JLabel(namePlayer1);
+        showPlayer2Name = new JLabel(namePlayer2);
+        showPlayer1Disks = new JLabel("2"); // conversione da int con un metodo che vede il numero di dischi
+        showPlayer2Disks = new JLabel("2");
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         add(topPanel, BorderLayout.NORTH);
         topPanel.setBackground(Color.LIGHT_GRAY);
@@ -59,14 +63,21 @@ public class GUIGameManager extends JFrame {
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         JPanel statisticsPanel = new JPanel(new GridLayout(3,2));
-        statisticsPanel.setMinimumSize(new Dimension(300, 700));
-        statisticsPanel.setMaximumSize(new Dimension(300, 700));
         statisticsPanel.setPreferredSize(new Dimension(300, 700));
+        statisticsPanel.setBackground(Color.decode("#d2691e"));
         JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard));
-        boardPanel.setMinimumSize(new Dimension(700, 700));
-        boardPanel.setMaximumSize(new Dimension(700, 700));
         boardPanel.setPreferredSize(new Dimension(700, 700));
         boardPanel.setBackground(Color.decode("#0E6B0E"));
+        statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
+        showPlayer1Name.setForeground(Color.BLACK);
+        showPlayer1Disks.setForeground(Color.BLACK);
+        showPlayer2Name.setForeground(Color.WHITE);
+        showPlayer2Disks.setForeground(Color.WHITE);
+
+        statisticsPanel.add(showPlayer1Name);
+        statisticsPanel.add(showPlayer1Disks);
+        statisticsPanel.add(showPlayer2Name);
+        statisticsPanel.add(showPlayer2Disks);
 
         c.gridy = 0;
         c.gridx = 0;
