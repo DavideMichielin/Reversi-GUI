@@ -79,6 +79,7 @@ public class GUIGameManager extends JFrame {
 
             }
         };
+        int a = 0;
         boardPanel.setPreferredSize(new Dimension(700, 700));
         boardPanel.setBackground(Color.decode("#0E6B0E"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
