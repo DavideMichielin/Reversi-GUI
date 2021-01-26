@@ -69,10 +69,12 @@ public class GUIGameManager extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
                 int sizeCell = 700/dimensionBoard;
                 for(int i = 0; i < dimensionBoard; i++){
-                    g.drawLine(0, i*sizeCell, 700, i*sizeCell);
-                    g.drawLine(i*sizeCell, 0, i*sizeCell, 700);
+                    g2d.setStroke(new BasicStroke(3));
+                    g2d.drawLine(0, i*sizeCell, 700, i*sizeCell);
+                    g2d.drawLine(i*sizeCell, 0, i*sizeCell, 700);
                 }
 
             }
