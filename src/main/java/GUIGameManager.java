@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,7 +10,13 @@ import java.net.URISyntaxException;
 
 public class GUIGameManager extends JFrame {
     private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
+    private final JPanel[][] graphicBoard;
+    private boolean[][] diskIsPresent;
+
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
+        graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
+        diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
+
         showPlayer1Name = new JLabel(namePlayer1);
         showPlayer2Name = new JLabel(namePlayer2);
         showPlayer1Disks = new JLabel("2"); // conversione da int con un metodo che vede il numero di dischi
@@ -65,25 +72,9 @@ public class GUIGameManager extends JFrame {
         JPanel statisticsPanel = new JPanel(new GridLayout(3,2));
         statisticsPanel.setPreferredSize(new Dimension(300, 700));
         statisticsPanel.setBackground(Color.decode("#d2691e"));
-        JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard)){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                int sizeCell = 700/dimensionBoard;
-                for(int i = 1; i < dimensionBoard; i++){
-                    g2d.setColor(Color.BLACK);
-                    g2d.setStroke(new BasicStroke(3));
-                    g2d.drawLine(0, i*sizeCell, 700, i*sizeCell);
-                    g2d.drawLine(i*sizeCell, 0, i*sizeCell, 700);
-                }
-
-            }
-        };
-        boardPanel.setPreferredSize(new Dimension(700, 700));
-        boardPanel.setBackground(Color.decode("#0E6B0E"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
 
+        JPanel boardPanel = createGridPanel(dimensionBoard);
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
         showPlayer2Name.setForeground(Color.WHITE);
@@ -105,6 +96,30 @@ public class GUIGameManager extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private JPanel createGridPanel(int dimensionBoard) {
+        JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard));
+        for(int indexRow = 0; indexRow < dimensionBoard; indexRow++ ){
+            for(int indexColumn = 0; indexColumn < dimensionBoard; indexColumn++){
+                graphicBoard[indexRow][indexColumn]= new JPanel();
+                graphicBoard[indexRow][indexColumn].setBorder(new LineBorder(Color.BLACK,3));
+                graphicBoard[indexRow][indexColumn].setBackground(Color.decode("#0E6B0E"));
+                boardPanel.add(graphicBoard[indexRow][indexColumn]);
+            }
+        }
+        boardPanel.setPreferredSize(new Dimension(700, 700));
+        boardPanel.setBackground(Color.BLACK);
+
+        return boardPanel;
+    }
+
+    private boolean isSetDisk(final int x, final int y) {
+        return diskIsPresent[x][y];
+    }
+
+    private void setDisk(int x, int y) {
+        diskIsPresent[x][y] = true;
     }
 
 }
