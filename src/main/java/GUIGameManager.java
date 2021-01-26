@@ -69,6 +69,11 @@ public class GUIGameManager extends JFrame {
         boardPanel.setPreferredSize(new Dimension(700, 700));
         boardPanel.setBackground(Color.decode("#0E6B0E"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
+        for (int i =0; i < Math.pow(dimensionBoard, 2); i++){
+            final JLabel label = new JLabel();
+            label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            boardPanel.add(label);
+        }
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
         showPlayer2Name.setForeground(Color.WHITE);

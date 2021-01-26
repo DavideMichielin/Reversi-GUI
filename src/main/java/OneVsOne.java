@@ -130,6 +130,7 @@ public class OneVsOne {
         availableDimension = new JComboBox<>(dimensionOfBoard);
         JLabel typeOfGame = new JLabel("Select Game: ");
         availableGameType = new JComboBox<>(gameType);
+        availableDimension.setSelectedIndex(2);
         boardConfigurationContainer.add(dimension);
         boardConfigurationContainer.add(typeOfGame);
         boardConfigurationContainer.add(availableDimension);
@@ -152,6 +153,7 @@ public class OneVsOne {
     private final ActionListener play = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
             if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Insert both player name");
             } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
