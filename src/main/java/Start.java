@@ -12,52 +12,8 @@ public class Start implements ActionListener {
     public Start() {
         frame = new JFrame();
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        frame.add(topPanel, BorderLayout.NORTH);
-        topPanel.setBackground(Color.LIGHT_GRAY);
-        final JLabel help = new JLabel("?");
-        final JLabel exit = new JLabel("X");
-        exit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.exit(0);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        });
-        help.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    String url = "https://en.wikipedia.org/wiki/Reversi#Rules";
-                    Desktop dt = Desktop.getDesktop();
-                    URI uri = new URI(url);
-                    dt.browse(uri.resolve(uri));
-                } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                help.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        });
-        exit.setBorder(new EmptyBorder(0, 10, 0, 10));
-        exit.setSize(10, 5);
-        exit.setFont(new Font("Tahoma", Font.BOLD, 15));
-        help.setBorder(new EmptyBorder(0, 10, 0, 10));
-        help.setSize(10, 5);
-        help.setFont(new Font("Tahoma", Font.BOLD, 15));
-        topPanel.add(help);
-        topPanel.add(exit);
-
+        TopPanel topPanel = new TopPanel();
+        frame.add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel(new GridBagLayout());
         frame.add(container, BorderLayout.CENTER);

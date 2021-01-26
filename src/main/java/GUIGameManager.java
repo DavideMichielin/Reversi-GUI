@@ -1,23 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class GUIGameManager extends JFrame {
     private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
@@ -38,50 +24,9 @@ public class GUIGameManager extends JFrame {
         showPlayer2Name = new JLabel(namePlayer2);
         showPlayer1Disks = new JLabel("2"); // conversione da int con un metodo che vede il numero di dischi
         showPlayer2Disks = new JLabel("2");
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        add(topPanel, BorderLayout.NORTH);
-        topPanel.setBackground(Color.LIGHT_GRAY);
-        final JLabel help = new JLabel("?");
-        final JLabel exit = new JLabel("X");
-        exit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.exit(0);
-            }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        });
-        help.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    String url = "https://en.wikipedia.org/wiki/Reversi#Rules";
-                    Desktop dt = Desktop.getDesktop();
-                    URI uri = new URI(url);
-                    dt.browse(uri.resolve(uri));
-                } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                help.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        });
-        exit.setBorder(new EmptyBorder(0, 10, 0, 10));
-        exit.setSize(10, 5);
-        exit.setFont(new Font("Tahoma", Font.BOLD, 15));
-        help.setBorder(new EmptyBorder(0, 10, 0, 10));
-        help.setSize(10, 5);
-        help.setFont(new Font("Tahoma", Font.BOLD, 15));
-        topPanel.add(help);
-        topPanel.add(exit);
+        TopPanel topPanel = new TopPanel();
+        add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
