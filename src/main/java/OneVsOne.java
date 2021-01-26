@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class OneVsOne {
-    private final JFrame frame;
+public class OneVsOne extends JFrame{
     private int mouseX;
     private int mouseY;
 
@@ -24,17 +23,17 @@ public class OneVsOne {
 
 
     public OneVsOne() {
-        frame = new JFrame("Reversi/Othello Game - Local 2 Player");
-        
-        TopPanel topPanel = new TopPanel(frame.getWidth(), frame);
-        frame.add(topPanel.getTopPanel(), BorderLayout.NORTH);
+        setTitle("Reversi/Othello Game - Local 2 Player");
+        TopPanel topPanel = new TopPanel(getWidth(), this);
+        add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
 
-        frame.add(container, BorderLayout.CENTER);
+        add(container, BorderLayout.CENTER);
+
         JPanel namePlayersContainer = new JPanel(new GridLayout(2, 2, 70, 15));
         namePlayersContainer.setBorder(new EmptyBorder(0, 0, 17, 0));
         container.add(namePlayersContainer, c);
@@ -68,12 +67,13 @@ public class OneVsOne {
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
         playButton.addActionListener(play);
-        frame.setSize(500, 500);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); //center of the screen
-        frame.setUndecorated(true);
-        frame.setResizable(false);
-        frame.setVisible(true);
+
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); //center of the screen
+        setUndecorated(true);
+        setResizable(false);
+        setVisible(true);
     }
 
     private final ActionListener play = new ActionListener() {
@@ -81,13 +81,14 @@ public class OneVsOne {
         public void actionPerformed(ActionEvent e) {
             //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
             if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "Insert both player name");
+                JOptionPane.showMessageDialog(OneVsOne.this, "Insert both player name");
             } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
-                JOptionPane.showMessageDialog(frame, "Change one Player name");
+                JOptionPane.showMessageDialog(OneVsOne.this, "Change one Player name");
             } else {
                 int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
                 new GUIGameManager(namePlayer1.getText(),namePlayer2.getText(), dimension,availableGameType.getSelectedItem().toString());
-                frame.setVisible(false);
+                //frame.setVisible(false);
+                setVisible(false);
             }
         }
     };
