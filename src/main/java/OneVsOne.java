@@ -110,7 +110,7 @@ public class OneVsOne {
 
         frame.add(container, BorderLayout.CENTER);
         JPanel namePlayersContainer = new JPanel(new GridLayout(2, 2, 70, 15));
-        namePlayersContainer.setBorder(new EmptyBorder(0,0,17,0));
+        namePlayersContainer.setBorder(new EmptyBorder(0, 0, 17, 0));
         container.add(namePlayersContainer, c);
         JLabel player1 = new JLabel("Name Player 1:");
         namePlayer1 = new JTextField();
@@ -123,7 +123,7 @@ public class OneVsOne {
         ++c.gridy;
 
         JPanel boardConfigurationContainer = new JPanel(new GridLayout(2, 2, 70, 7));
-        boardConfigurationContainer.setBorder(new EmptyBorder(0,0,25,0));
+        boardConfigurationContainer.setBorder(new EmptyBorder(0, 0, 25, 0));
         container.add(boardConfigurationContainer, c);
         JLabel dimension = new JLabel("Board Size: ");
 
@@ -140,7 +140,7 @@ public class OneVsOne {
         container.add(playButtonContainer, c);
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
-
+        playButton.addActionListener(play);
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null); //center of the screen
@@ -152,12 +152,14 @@ public class OneVsOne {
     private final ActionListener play = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()){
-                JOptionPane.showMessageDialog(frame, (namePlayer1.getText().isEmpty())?"Insert Player 1 name":"Insert Player 2 name");
-            }else if(namePlayer1.getText().equals(namePlayer2.getText())){
+            if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Insert both player name");
+            } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
                 JOptionPane.showMessageDialog(frame, "Change one Player name");
-            }else{
-                //chiamata Game
+            } else {
+                int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
+                new GUIGameManager(namePlayer1.getText(),namePlayer2.getText(), dimension,availableGameType.getSelectedItem().toString());
+                frame.setVisible(false);
             }
         }
     };

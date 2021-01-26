@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class Start implements ActionListener {
-    private int mouseX, mouseY;
     private final JFrame frame;
 
     public Start() {
@@ -15,19 +14,6 @@ public class Start implements ActionListener {
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        topPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-            }
-        });
-        topPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mouseX = e.getX();
-                mouseY = e.getY();
-            }
-        });
         frame.add(topPanel, BorderLayout.NORTH);
         topPanel.setBackground(Color.LIGHT_GRAY);
         final JLabel help = new JLabel("?");
@@ -37,6 +23,7 @@ public class Start implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 System.exit(0);
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -56,6 +43,7 @@ public class Start implements ActionListener {
                     ex.printStackTrace();
                 }
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 help.setCursor(new Cursor(Cursor.HAND_CURSOR));

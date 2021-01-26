@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 public class OneVsCPU extends JFrame implements ActionListener {
 
-    public OneVsCPU(){
+    public OneVsCPU() {
         setSize(400, 400);
         setLocationRelativeTo(null);
         //player
