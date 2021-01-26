@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -16,6 +18,11 @@ public class OneVsOne {
             "16x16", "18x18", "20x20", "22x22", "24x24", "26x26"};
 
     private final String[] gameType = {"Othello", "Reversi"};
+
+    private final JTextField namePlayer1, namePlayer2;
+    private final JComboBox<String> availableDimension, availableGameType;
+
+
     public OneVsOne() {
         frame = new JFrame("Reversi/Othello Game - Local 2 Player");
         JPanel containerTopPanel = new JPanel();
@@ -106,9 +113,9 @@ public class OneVsOne {
         namePlayersContainer.setBorder(new EmptyBorder(0,0,17,0));
         container.add(namePlayersContainer, c);
         JLabel player1 = new JLabel("Name Player 1:");
-        JTextField namePlayer1 = new JTextField();
+        namePlayer1 = new JTextField();
         JLabel player2 = new JLabel("Name Player 2:");
-        JTextField namePlayer2 = new JTextField();
+        namePlayer2 = new JTextField();
         namePlayersContainer.add(player1);
         namePlayersContainer.add(player2);
         namePlayersContainer.add(namePlayer1);
@@ -120,9 +127,9 @@ public class OneVsOne {
         container.add(boardConfigurationContainer, c);
         JLabel dimension = new JLabel("Board Size: ");
 
-        JComboBox<String> availableDimension = new JComboBox<>(dimensionOfBoard);
+        availableDimension = new JComboBox<>(dimensionOfBoard);
         JLabel typeOfGame = new JLabel("Select Game: ");
-        JComboBox<String> availableGameType = new JComboBox<>(gameType);
+        availableGameType = new JComboBox<>(gameType);
         boardConfigurationContainer.add(dimension);
         boardConfigurationContainer.add(typeOfGame);
         boardConfigurationContainer.add(availableDimension);
@@ -141,4 +148,17 @@ public class OneVsOne {
         frame.setResizable(false);
         frame.setVisible(true);
     }
+
+    private final ActionListener play = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, (namePlayer1.getText().isEmpty())?"Insert Player 1 name":"Insert Player 2 name");
+            }else if(namePlayer1.getText().equals(namePlayer2.getText())){
+                JOptionPane.showMessageDialog(frame, "Change one Player name");
+            }else{
+                //chiamata Game
+            }
+        }
+    };
 }
