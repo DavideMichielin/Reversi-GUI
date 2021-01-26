@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class OneVsOne extends JFrame{
+public class OneVsOne extends JFrame implements ActionListener{
     private int mouseX;
     private int mouseY;
 
@@ -66,7 +66,7 @@ public class OneVsOne extends JFrame{
         container.add(playButtonContainer, c);
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
-        playButton.addActionListener(play);
+        playButton.addActionListener(this);
 
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -76,20 +76,18 @@ public class OneVsOne extends JFrame{
         setVisible(true);
     }
 
-    private final ActionListener play = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
-            if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(OneVsOne.this, "Insert both player name");
-            } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
-                JOptionPane.showMessageDialog(OneVsOne.this, "Change one Player name");
-            } else {
-                int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
-                new GUIGameManager(namePlayer1.getText(),namePlayer2.getText(), dimension,availableGameType.getSelectedItem().toString());
-                //frame.setVisible(false);
-                setVisible(false);
-            }
+    @Override
+    public void actionPerformed(ActionEvent e){
+        //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
+        if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(OneVsOne.this, "Insert both player name");
+        } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
+            JOptionPane.showMessageDialog(OneVsOne.this, "Change one Player name");
+        } else {
+            int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
+            new GUIGameManager(namePlayer1.getText(),namePlayer2.getText(), dimension,availableGameType.getSelectedItem().toString());
+            //frame.setVisible(false);
+            setVisible(false);
         }
-    };
+    }
 }
