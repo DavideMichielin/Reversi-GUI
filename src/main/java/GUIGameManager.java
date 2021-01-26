@@ -3,22 +3,23 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class GUIGameManager extends JFrame {
-    private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
+    private final JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private final int FRAME_SIZE = 700;
     private final int DISK_RADIUS = 50;
-    private boolean[][] diskIsPresent;
+    private final boolean[][] diskIsPresent;
     private int numberOfMoves = 0;
-    private ArrayList<Point> points;
+    private final ArrayList<Point> points;
 
 
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
         graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
         diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
-        points = new ArrayList<Point>();
+        points = new ArrayList<>();
 
         showPlayer1Name = new JLabel(namePlayer1);
         showPlayer2Name = new JLabel(namePlayer2);
@@ -90,28 +91,10 @@ public class GUIGameManager extends JFrame {
                                     (indexC < dimensionBoard / 2 - 1 ||  indexC > dimensionBoard / 2)){
                                 JOptionPane.showMessageDialog(frame, "Invalid First Position");
                             }else{
-                                if(isSetDisk(indexR, indexC)){
-                                    JOptionPane.showMessageDialog(frame, "Invalid Position");
-                                }else{
-                                    setCell(indexR, indexC);
-                                    int cellCenter = FRAME_SIZE/dimensionBoard;
-                                    int center = cellCenter/2 - DISK_RADIUS/2;
-                                    points.add(new Point(center, center));
-                                    graphicBoard[indexR][indexC].repaint();
-                                    numberOfMoves++;
-                                }
+                                doMove(indexR, indexC, dimensionBoard, frame);
                             }
                         }else{
-                            if(isSetDisk(indexR, indexC)){
-                                JOptionPane.showMessageDialog(frame, "Invalid Position");
-                            }else{
-                                setCell(indexR, indexC);
-                                int cellCenter = FRAME_SIZE/dimensionBoard;
-                                int center = cellCenter/2 - DISK_RADIUS/2;
-                                points.add(new Point(center, center));
-                                graphicBoard[indexR][indexC].repaint();
-                                numberOfMoves++;
-                            }
+                            doMove(indexR, indexC, dimensionBoard, frame);
                         }
                     }
                 });
@@ -125,6 +108,19 @@ public class GUIGameManager extends JFrame {
     }
 
 
+    private void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame){
+        if(isSetDisk(indexR, indexC)){
+            JOptionPane.showMessageDialog(frame, "Invalid Position");
+        }else{
+            setCell(indexR, indexC);
+            int cellCenter = FRAME_SIZE/dimensionBoard;
+            int center = cellCenter/2 - DISK_RADIUS/2;
+            points.add(new Point(center, center));
+            graphicBoard[indexR][indexC].repaint();
+            numberOfMoves++;
+        }
+    }
+
     private boolean isSetDisk(final int x, final int y) {
         return diskIsPresent[x][y];
     }
@@ -132,5 +128,5 @@ public class GUIGameManager extends JFrame {
     private void setCell(int x, int y) {
         diskIsPresent[x][y] = true;
     }
-
+    
 }

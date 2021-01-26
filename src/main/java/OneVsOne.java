@@ -3,16 +3,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class OneVsOne extends JFrame implements ActionListener{
-    private int mouseX;
-    private int mouseY;
-
     private final String[] dimensionOfBoard = {"4x4", "6x6", "8x8", "10x10", "12x12", "14x14",
             "16x16", "18x18", "20x20", "22x22", "24x24", "26x26"};
 
@@ -86,7 +78,6 @@ public class OneVsOne extends JFrame implements ActionListener{
         } else {
             int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
             new GUIGameManager(namePlayer1.getText(),namePlayer2.getText(), dimension,availableGameType.getSelectedItem().toString());
-            //frame.setVisible(false);
             setVisible(false);
         }
     }

@@ -8,11 +8,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class TopPanel {
-    private JPanel topPanel;
+    private final JPanel topPanel;
     public TopPanel(){
         topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBackground(Color.LIGHT_GRAY);
-        final JLabel back = new JLabel("\u2190 Back");
         final JLabel help = new JLabel("?");
         final JLabel exit = new JLabel("X");
         exit.addMouseListener(new MouseAdapter() {
@@ -34,9 +33,7 @@ public class TopPanel {
                     Desktop dt = Desktop.getDesktop();
                     URI uri = new URI(url);
                     dt.browse(uri.resolve(uri));
-                } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
+                } catch (URISyntaxException | IOException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -90,13 +87,10 @@ public class TopPanel {
             public void mouseClicked(MouseEvent e) {
                 try {
                     String url = "https://en.wikipedia.org/wiki/Reversi#Rules";
-
                     Desktop dt = Desktop.getDesktop();
                     URI uri = new URI(url);
                     dt.browse(uri.resolve(uri));
-                } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
+                } catch (URISyntaxException | IOException ex) {
                     ex.printStackTrace();
                 }
             }
