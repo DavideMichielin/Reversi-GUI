@@ -30,12 +30,20 @@ public class OneVsOne {
         });
         frame.add(topPanel, BorderLayout.NORTH);
         topPanel.setBackground(Color.LIGHT_GRAY);
+
+        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        frame.add(backPanel, BorderLayout.WEST);
+        final JLabel back = new JLabel("\u2190 Back");
         final JLabel help = new JLabel("?");
         final JLabel exit = new JLabel("X");
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.exit(0);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
         help.addMouseListener(new MouseAdapter() {
@@ -52,7 +60,21 @@ public class OneVsOne {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                help.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        });
+        back.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Start();
+                frame.setVisible(false);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                back.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
         exit.setBorder(new EmptyBorder(0, 10, 0, 10));
@@ -61,9 +83,11 @@ public class OneVsOne {
         help.setBorder(new EmptyBorder(0, 10, 0, 10));
         help.setSize(10, 5);
         help.setFont(new Font("Tahoma", Font.BOLD, 15));
+        back.setSize(10, 5);
+        back.setFont(new Font("Tahoma", Font.BOLD, 15));
         topPanel.add(help);
         topPanel.add(exit);
-
+        backPanel.add(back);
         // nomi dei due player
         // dimensioni
         // tipo di game

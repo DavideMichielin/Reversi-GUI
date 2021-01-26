@@ -47,7 +47,6 @@ public class Start implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 try {
                     String url = "https://en.wikipedia.org/wiki/Reversi#Rules";
-
                     Desktop dt = Desktop.getDesktop();
                     URI uri = new URI(url);
                     dt.browse(uri.resolve(uri));
@@ -56,7 +55,10 @@ public class Start implements ActionListener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                help.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
         exit.setBorder(new EmptyBorder(0, 10, 0, 10));
