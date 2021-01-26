@@ -66,7 +66,6 @@ public class GUIGameManager extends JFrame {
         boardPanel.setMinimumSize(new Dimension(700, 700));
         boardPanel.setMaximumSize(new Dimension(700, 700));
         boardPanel.setPreferredSize(new Dimension(700, 700));
-        statisticsPanel.setBackground(Color.RED);
         boardPanel.setBackground(Color.decode("#0E6B0E"));
 
         c.gridy = 0;
