@@ -12,6 +12,7 @@ public class GUIGameManager extends JFrame {
     private JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private boolean[][] diskIsPresent;
+    private int numberOfMoves = 0;
 
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
         graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
@@ -74,7 +75,8 @@ public class GUIGameManager extends JFrame {
         statisticsPanel.setBackground(Color.decode("#d2691e"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
 
-        JPanel boardPanel = createGridPanel(dimensionBoard);
+        JPanel boardPanel = createGridPanel(dimensionBoard, this);
+
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
         showPlayer2Name.setForeground(Color.WHITE);
@@ -98,13 +100,40 @@ public class GUIGameManager extends JFrame {
         setVisible(true);
     }
 
-    private JPanel createGridPanel(int dimensionBoard) {
+    private JPanel createGridPanel(int dimensionBoard, final JFrame frame) {
         JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard));
         for(int indexRow = 0; indexRow < dimensionBoard; indexRow++ ){
             for(int indexColumn = 0; indexColumn < dimensionBoard; indexColumn++){
                 graphicBoard[indexRow][indexColumn]= new JPanel();
                 graphicBoard[indexRow][indexColumn].setBorder(new LineBorder(Color.BLACK,3));
                 graphicBoard[indexRow][indexColumn].setBackground(Color.decode("#0E6B0E"));
+                final int indexR = indexRow, indexC = indexColumn;
+                graphicBoard[indexRow][indexColumn].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(numberOfMoves < 4){
+                            if((indexR < dimensionBoard / 2 - 1 ||  indexR > dimensionBoard / 2) ||
+                                    (indexC < dimensionBoard / 2 - 1 ||  indexC > dimensionBoard / 2)){
+                                JOptionPane.showMessageDialog(frame, "Invalid First Position");
+                            }else{
+                                if(isSetDisk(indexR, indexC)){
+                                    JOptionPane.showMessageDialog(frame, "Invalid Position");
+                                }else{
+                                    setCell(indexR, indexC);
+                                    JOptionPane.showMessageDialog(frame, "Ok");
+                                    numberOfMoves++;
+                                }
+                            }
+                        }else{
+                            if(isSetDisk(indexR, indexC)){
+                                JOptionPane.showMessageDialog(frame, "Invalid Position");
+                            }else{
+                                setCell(indexR, indexC);
+                                JOptionPane.showMessageDialog(frame, "Valid Position");
+                            }
+                        }
+                    }
+                });
                 boardPanel.add(graphicBoard[indexRow][indexColumn]);
             }
         }
@@ -118,7 +147,7 @@ public class GUIGameManager extends JFrame {
         return diskIsPresent[x][y];
     }
 
-    private void setDisk(int x, int y) {
+    private void setCell(int x, int y) {
         diskIsPresent[x][y] = true;
     }
 
