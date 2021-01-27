@@ -3,7 +3,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class GUIGameManager extends JFrame {
@@ -14,6 +13,7 @@ public class GUIGameManager extends JFrame {
     private final boolean[][] diskIsPresent;
     private int numberOfMoves = 0;
     private final ArrayList<Point> points;
+    private boolean currentColor; //check color of player
 
 
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
@@ -32,7 +32,7 @@ public class GUIGameManager extends JFrame {
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        JPanel statisticsPanel = new JPanel(new GridLayout(3,2));
+        JPanel statisticsPanel = new JPanel(new GridLayout(3, 2));
         statisticsPanel.setPreferredSize(new Dimension(300, FRAME_SIZE));
         statisticsPanel.setBackground(Color.decode("#d2691e"));
         statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
@@ -51,7 +51,7 @@ public class GUIGameManager extends JFrame {
 
         c.gridy = 0;
         c.gridx = 0;
-        container.add(statisticsPanel,c);
+        container.add(statisticsPanel, c);
         ++c.gridx;
         container.add(boardPanel, c);
         add(container);
@@ -63,37 +63,39 @@ public class GUIGameManager extends JFrame {
     }
 
     private JPanel createGridPanel(int dimensionBoard, final JFrame frame) {
-        JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard,dimensionBoard));
-        for(int indexRow = 0; indexRow < dimensionBoard; indexRow++ ){
-            for(int indexColumn = 0; indexColumn < dimensionBoard; indexColumn++){
-                graphicBoard[indexRow][indexColumn] = new JPanel(){
+        JPanel boardPanel = new JPanel(new GridLayout(dimensionBoard, dimensionBoard));
+        for (int indexRow = 0; indexRow < dimensionBoard; indexRow++) {
+            for (int indexColumn = 0; indexColumn < dimensionBoard; indexColumn++) {
+                graphicBoard[indexRow][indexColumn] = new JPanel() {
                     @Override
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
                         Graphics2D g2 = (Graphics2D) g;
                         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                         for (Point point : points) {
-                            g2.setColor(Color.BLACK); //print fill oval
+                            if (currentColor) {
+                                g2.setColor(Color.BLACK); //print fill oval
+                            } else {
+                                g2.setColor(Color.WHITE); //print fill oval
+                            }
                             g2.fillOval(point.x, point.y, DISK_RADIUS, DISK_RADIUS);
-                            g2.setColor(Color.WHITE); //print border
-                            g2.drawOval(point.x, point.y, DISK_RADIUS, DISK_RADIUS);
                         }
                     }
                 };
-                graphicBoard[indexRow][indexColumn].setBorder(new LineBorder(Color.BLACK,3));
+                graphicBoard[indexRow][indexColumn].setBorder(new LineBorder(Color.BLACK, 3));
                 graphicBoard[indexRow][indexColumn].setBackground(Color.decode("#0E6B0E"));
                 final int indexR = indexRow, indexC = indexColumn;
                 graphicBoard[indexRow][indexColumn].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if(numberOfMoves < 4){
-                            if((indexR < dimensionBoard / 2 - 1 ||  indexR > dimensionBoard / 2) ||
-                                    (indexC < dimensionBoard / 2 - 1 ||  indexC > dimensionBoard / 2)){
+                        if (numberOfMoves < 4) {
+                            if ((indexR < dimensionBoard / 2 - 1 || indexR > dimensionBoard / 2) ||
+                                    (indexC < dimensionBoard / 2 - 1 || indexC > dimensionBoard / 2)) {
                                 JOptionPane.showMessageDialog(frame, "Invalid First Position");
-                            }else{
+                            } else {
                                 doMove(indexR, indexC, dimensionBoard, frame);
                             }
-                        }else{
+                        } else {
                             doMove(indexR, indexC, dimensionBoard, frame);
                         }
                     }
@@ -108,16 +110,17 @@ public class GUIGameManager extends JFrame {
     }
 
 
-    private void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame){
-        if(isSetDisk(indexR, indexC)){
+    private void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame) {
+        if (isSetDisk(indexR, indexC)) {
             JOptionPane.showMessageDialog(frame, "Invalid Position");
-        }else{
+        } else {
             setCell(indexR, indexC);
-            int cellCenter = FRAME_SIZE/dimensionBoard;
-            int center = cellCenter/2 - DISK_RADIUS/2;
+            int cellCenter = FRAME_SIZE / dimensionBoard;
+            int center = cellCenter / 2 - DISK_RADIUS / 2;
             points.add(new Point(center, center));
             graphicBoard[indexR][indexC].repaint();
             numberOfMoves++;
+            currentColor = !currentColor;
         }
     }
 
@@ -128,5 +131,5 @@ public class GUIGameManager extends JFrame {
     private void setCell(int x, int y) {
         diskIsPresent[x][y] = true;
     }
-    
+
 }
