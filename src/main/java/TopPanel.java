@@ -22,7 +22,13 @@ public class TopPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                exit.setOpaque(true);
+                exit.setBackground(Color.RED);
                 exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exit.setBackground(Color.LIGHT_GRAY);
             }
         });
         help.addMouseListener(new MouseAdapter() {
@@ -42,6 +48,8 @@ public class TopPanel {
             public void mouseEntered(MouseEvent e) {
                 help.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
+
+
         });
         exit.setBorder(new EmptyBorder(0, 10, 0, 10));
         exit.setSize(10, 5);
@@ -79,7 +87,13 @@ public class TopPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                exit.setOpaque(true);
+                exit.setBackground(Color.RED);
                 exit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exit.setBackground(Color.LIGHT_GRAY);
             }
         });
         help.addMouseListener(new MouseAdapter() {
