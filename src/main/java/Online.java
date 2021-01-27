@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Online extends JFrame implements ActionListener {
 
@@ -30,6 +32,12 @@ public class Online extends JFrame implements ActionListener {
 
         c.gridx = 0;
         ++c.gridy;
+        String hostIP = "";
+        try{
+            hostIP = InetAddress.getLocalHost().getHostAddress();
+        }catch(UnknownHostException exception){
+            System.out.println("Cannot take own IP address");
+        }
         container.add(new JLabel("ciao"),c);
         c.gridx = 2;
         container.add(new JTextField("Insert IP Address"),c);
@@ -62,3 +70,4 @@ public class Online extends JFrame implements ActionListener {
 
     //Se client mostra JTextField dove inserire l'ip
 }
+
