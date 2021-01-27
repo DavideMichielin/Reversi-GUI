@@ -1,13 +1,19 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Online extends JFrame implements ActionListener {
 
     private String optionOnline[] = {"Host", "Client"};
+    private final JLabel IPAddressThisPC = new JLabel();
+    private final JTextField IPAddressHostPC = new JTextField("Insert IP Address");
 
     public Online() {
         TopPanel topPanel = new TopPanel(this);
@@ -19,7 +25,6 @@ public class Online extends JFrame implements ActionListener {
         c.gridy = 0;
 
         JRadioButton chooseHost = new JRadioButton("Host");
-        chooseHost.setSelected(true);
         JRadioButton chooseClient = new JRadioButton("Client");
 
         ButtonGroup group = new ButtonGroup();
@@ -32,16 +37,16 @@ public class Online extends JFrame implements ActionListener {
 
         c.gridx = 0;
         ++c.gridy;
-        String hostIP = "";
         try{
-            hostIP = InetAddress.getLocalHost().getHostAddress();
+            String hostIP = InetAddress.getLocalHost().getHostAddress();
+            IPAddressThisPC.setText(hostIP);
+            container.add(IPAddressThisPC,c);
+
         }catch(UnknownHostException exception){
             System.out.println("Cannot take own IP address");
         }
-        container.add(new JLabel("ciao"),c);
         c.gridx = 2;
-        container.add(new JTextField("Insert IP Address"),c);
-
+        container.add(IPAddressHostPC,c);
         ++c.gridy;
         c.gridx = 1;
         JPanel playButtonContainer = new JPanel();
@@ -51,6 +56,22 @@ public class Online extends JFrame implements ActionListener {
         playButton.addActionListener(this);
 
         add(container, BorderLayout.CENTER);
+
+        chooseHost.addActionListener(this);
+        chooseClient.addActionListener(this);
+
+        IPAddressHostPC.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                IPAddressHostPC.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                IPAddressHostPC.setText("Insert IP Address");
+            }
+        });
 
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -62,12 +83,14 @@ public class Online extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        JRadioButton pressedRadioButton = (JRadioButton) e.getSource();
+        if(pressedRadioButton.getText().equals("Host")){
+            IPAddressThisPC.setEnabled(true);
+            IPAddressHostPC.setEnabled(false);
+        } else {
+            IPAddressHostPC.setEnabled(true);
+            IPAddressThisPC.setEnabled(false);
+        }
     }
-    //Radius Host - Client
-
-    //Se Host mostra label con il proprio IP
-
-    //Se client mostra JTextField dove inserire l'ip
 }
 
