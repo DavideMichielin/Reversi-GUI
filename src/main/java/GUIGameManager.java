@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,7 +10,7 @@ public class GUIGameManager extends JFrame {
     private final JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private final int FRAME_SIZE = 700;
-    private final int DISK_RADIUS = 50;
+    private final int diskRadius;
     private final boolean[][] diskIsPresent;
     private int numberOfMoves = 0;
     private final ArrayList<Point> points;
@@ -20,38 +21,50 @@ public class GUIGameManager extends JFrame {
         graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
         diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
         points = new ArrayList<>();
+        diskRadius = (FRAME_SIZE/dimensionBoard)/2;
 
         showPlayer1Name = new JLabel(namePlayer1);
         showPlayer2Name = new JLabel(namePlayer2);
         showPlayer1Disks = new JLabel("2"); // conversione da int con un metodo che vede il numero di dischi
         showPlayer2Disks = new JLabel("2");
 
-        TopPanel topPanel = new TopPanel();
+        TopPanel topPanel = new TopPanel(this);
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        JPanel statisticsPanel = new JPanel(new GridLayout(3, 2));
+        JPanel statisticsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c1 = new GridBagConstraints();
         statisticsPanel.setPreferredSize(new Dimension(300, FRAME_SIZE));
         statisticsPanel.setBackground(Color.decode("#d2691e"));
-        statisticsPanel.setBorder(BorderFactory.createMatteBorder(0, 30, 0, 30, Color.blue));
-
-        JPanel boardPanel = createGridPanel(dimensionBoard, this);
-
+        statisticsPanel.setBorder(new EmptyBorder(0,25,0,25));
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
         showPlayer2Name.setForeground(Color.WHITE);
         showPlayer2Disks.setForeground(Color.WHITE);
 
-        statisticsPanel.add(showPlayer1Name);
-        statisticsPanel.add(showPlayer1Disks);
-        statisticsPanel.add(showPlayer2Name);
-        statisticsPanel.add(showPlayer2Disks);
+        JButton mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setMaximumSize(new Dimension(30,10));
 
+        c1.gridx = c1.gridy = 0;
+        statisticsPanel.add(showPlayer1Name,c1);
+        c1.gridx = 2;
+        statisticsPanel.add(showPlayer1Disks,c1);
+        c1.gridy = 5;
+        c1.gridx = 0;
+        statisticsPanel.add(showPlayer2Name, c1);
+        c1.gridx = 2;
+        statisticsPanel.add(showPlayer2Disks, c1);
+        c1.gridy = 10;
+        c1.gridx = 1;
+        c1.weightx = 2;
+        statisticsPanel.add(mainMenuButton, c1);
         c.gridy = 0;
         c.gridx = 0;
         container.add(statisticsPanel, c);
+
+        JPanel boardPanel = createGridPanel(dimensionBoard, this);
         ++c.gridx;
         container.add(boardPanel, c);
         add(container);
@@ -78,7 +91,7 @@ public class GUIGameManager extends JFrame {
                             } else {
                                 g2.setColor(Color.WHITE); //print fill oval
                             }
-                            g2.fillOval(point.x, point.y, DISK_RADIUS, DISK_RADIUS);
+                            g2.fillOval(point.x, point.y, diskRadius, diskRadius);
                         }
                     }
                 };
@@ -116,7 +129,7 @@ public class GUIGameManager extends JFrame {
         } else {
             setCell(indexR, indexC);
             int cellCenter = FRAME_SIZE / dimensionBoard;
-            int center = cellCenter / 2 - DISK_RADIUS / 2;
+            int center = cellCenter / 2 - diskRadius / 2;
             points.add(new Point(center, center));
             graphicBoard[indexR][indexC].repaint();
             numberOfMoves++;
@@ -124,7 +137,7 @@ public class GUIGameManager extends JFrame {
         }
     }
 
-    private boolean isSetDisk(final int x, final int y) {
+    public boolean isSetDisk(final int x, final int y) {
         return diskIsPresent[x][y];
     }
 

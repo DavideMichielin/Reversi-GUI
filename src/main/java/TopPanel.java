@@ -53,7 +53,7 @@ public class TopPanel {
         topPanel.add(exit);
     }
 
-    public TopPanel(int frameWidth, final JFrame frame){
+    public TopPanel( final JFrame frame){
         topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBackground(Color.LIGHT_GRAY);
         JPanel topPanelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -65,8 +65,8 @@ public class TopPanel {
 
         topPanelRight.setBackground(Color.LIGHT_GRAY);
         topPanelLeft.setBackground(Color.LIGHT_GRAY);
-        topPanelRight.setSize(frameWidth / 2, 10);
-        topPanelLeft.setSize(frameWidth / 2, 10);
+        topPanelRight.setSize(frame.getWidth() / 2, 10);
+        topPanelLeft.setSize(frame.getWidth() / 2, 10);
 
         final JLabel back = new JLabel("\u2190 Back");
         final JLabel help = new JLabel("?");
