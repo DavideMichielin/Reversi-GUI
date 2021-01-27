@@ -15,7 +15,6 @@ public class OneVsOne extends JFrame implements ActionListener {
 
 
     public OneVsOne() {
-        setTitle("Reversi/Othello Game - Local 2 Player");
         TopPanel topPanel = new TopPanel(this);
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
