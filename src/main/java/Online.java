@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,16 +6,19 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
-public class Online extends JFrame implements ActionListener {
+public class Online {
 
     private String optionOnline[] = {"Host", "Client"};
     private final JLabel IPAddressThisPC = new JLabel();
     private final JTextField IPAddressHostPC = new JTextField("Insert IP Address");
+    private final ButtonGroup group;
+    private final JFrame frame = new JFrame();
 
     public Online() {
-        TopPanel topPanel = new TopPanel(this);
-        add(topPanel.getTopPanel(), BorderLayout.NORTH);
+        TopPanel topPanel = new TopPanel(frame);
+        frame.add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -27,38 +28,38 @@ public class Online extends JFrame implements ActionListener {
         JRadioButton chooseHost = new JRadioButton("Host");
         JRadioButton chooseClient = new JRadioButton("Client");
 
-        ButtonGroup group = new ButtonGroup();
+        group = new ButtonGroup();
         group.add(chooseHost);
         group.add(chooseClient);
 
-        container.add(chooseHost,c);
+        container.add(chooseHost, c);
         c.gridx = 2;
-        container.add(chooseClient,c);
+        container.add(chooseClient, c);
 
         c.gridx = 0;
         ++c.gridy;
-        try{
+        try {
             String hostIP = InetAddress.getLocalHost().getHostAddress();
             IPAddressThisPC.setText(hostIP);
-            container.add(IPAddressThisPC,c);
+            container.add(IPAddressThisPC, c);
 
-        }catch(UnknownHostException exception){
+        } catch (UnknownHostException exception) {
             System.out.println("Cannot take own IP address");
         }
         c.gridx = 2;
-        container.add(IPAddressHostPC,c);
+        container.add(IPAddressHostPC, c);
         ++c.gridy;
         c.gridx = 1;
         JPanel playButtonContainer = new JPanel();
         container.add(playButtonContainer, c);
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
-        playButton.addActionListener(this);
+        frame.add(container, BorderLayout.CENTER);
 
-        add(container, BorderLayout.CENTER);
+        chooseHost.addActionListener(manageWhichElementMustBeEnabled);
+        chooseClient.addActionListener(manageWhichElementMustBeEnabled);
+        playButton.addActionListener(controlRegularityOfSelectionAndPlay);
 
-        chooseHost.addActionListener(this);
-        chooseClient.addActionListener(this);
 
         IPAddressHostPC.addFocusListener(new FocusListener() {
 
@@ -73,24 +74,52 @@ public class Online extends JFrame implements ActionListener {
             }
         });
 
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); //center of the screen
-        setUndecorated(true);
-        setResizable(false);
-        setVisible(true);
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null); //center of the screen
+        frame.setUndecorated(true);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JRadioButton pressedRadioButton = (JRadioButton) e.getSource();
-        if(pressedRadioButton.getText().equals("Host")){
-            IPAddressThisPC.setEnabled(true);
-            IPAddressHostPC.setEnabled(false);
-        } else {
-            IPAddressHostPC.setEnabled(true);
-            IPAddressThisPC.setEnabled(false);
+    private final ActionListener manageWhichElementMustBeEnabled = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JRadioButton pressedRadioButton = (JRadioButton) e.getSource();
+            if (pressedRadioButton.getText().equals("Host")) {
+                IPAddressThisPC.setEnabled(true);
+                IPAddressHostPC.setEnabled(false);
+            } else {
+                IPAddressHostPC.setEnabled(true);
+                IPAddressThisPC.setEnabled(false);
+            }
         }
+    };
+
+        private final ActionListener controlRegularityOfSelectionAndPlay = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(group.getSelection() == null){
+                    JOptionPane.showMessageDialog(frame, "Please, make a selection",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                }else if(!isIp(IPAddressHostPC.getText())){
+                    JOptionPane.showMessageDialog(frame, "Please, write a valid IP number",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                }else{
+                    // creazione del gioco o join di una partita
+                }
+            }
+        };
+
+    public static boolean isIp(String string) {
+        String[] parts = string.split("\\.", -1);
+        return parts.length == 4 // 4 parts
+                && Arrays.stream(parts)
+                .map(Integer::parseInt)
+                .filter(i -> i <= 255 && i >= 0) // Must be inside [0, 255]
+                .count() == 4; // 4 numerical parts inside [0, 255]
     }
-}
+    }
 
