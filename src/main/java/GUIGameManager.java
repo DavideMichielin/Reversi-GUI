@@ -15,6 +15,7 @@ public class GUIGameManager extends JFrame {
     private int numberOfMoves = 0;
     private final ArrayList<Point> points;
     private boolean currentColor; //check color of player
+    private JLabel namePlayerTurn;
 
 
     public GUIGameManager(String namePlayer1, String namePlayer2, int dimensionBoard, String gameType) {
@@ -23,21 +24,25 @@ public class GUIGameManager extends JFrame {
         points = new ArrayList<>();
         diskRadius = (FRAME_SIZE/dimensionBoard)/2;
 
-        showPlayer1Name = new JLabel(namePlayer1);
-        showPlayer2Name = new JLabel(namePlayer2);
-        showPlayer1Disks = new JLabel("2"); // conversione da int con un metodo che vede il numero di dischi
-        showPlayer2Disks = new JLabel("2");
+        showPlayer1Name = new JLabel(namePlayer1, JLabel.CENTER);
+        showPlayer2Name = new JLabel(namePlayer2, JLabel.CENTER);
+        showPlayer1Disks = new JLabel("0", JLabel.CENTER); // conversione da int con un metodo che vede il numero di dischi
+        showPlayer2Disks = new JLabel("0", JLabel.CENTER);
 
-        TopPanel topPanel = new TopPanel(this);
+        showPlayer1Name.setFont(new Font("Tahoma", Font.BOLD, 15));
+        showPlayer1Disks.setFont(new Font("Tahoma", Font.BOLD, 15));
+        showPlayer2Name.setFont(new Font("Tahoma", Font.BOLD, 15));
+        showPlayer2Disks.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+        TopPanel topPanel = new TopPanel();
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        JPanel statisticsPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints c1 = new GridBagConstraints();
+        JPanel statisticsPanel = new JPanel(new BorderLayout());
         statisticsPanel.setPreferredSize(new Dimension(300, FRAME_SIZE));
-        statisticsPanel.setBackground(Color.decode("#d2691e"));
+        statisticsPanel.setBackground(Color.LIGHT_GRAY);
         statisticsPanel.setBorder(new EmptyBorder(0,25,0,25));
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
@@ -47,19 +52,21 @@ public class GUIGameManager extends JFrame {
         JButton mainMenuButton = new JButton("Main Menu");
         mainMenuButton.setMaximumSize(new Dimension(30,10));
 
-        c1.gridx = c1.gridy = 0;
-        statisticsPanel.add(showPlayer1Name,c1);
-        c1.gridx = 2;
-        statisticsPanel.add(showPlayer1Disks,c1);
-        c1.gridy = 5;
-        c1.gridx = 0;
-        statisticsPanel.add(showPlayer2Name, c1);
-        c1.gridx = 2;
-        statisticsPanel.add(showPlayer2Disks, c1);
-        c1.gridy = 10;
-        c1.gridx = 1;
-        c1.weightx = 2;
-        statisticsPanel.add(mainMenuButton, c1);
+        namePlayerTurn = new JLabel(namePlayer1+"'s Turn", JLabel.CENTER);
+        namePlayerTurn.setBorder(new EmptyBorder(50, 0, 50, 0));
+
+        namePlayerTurn.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+        statisticsPanel.add(namePlayerTurn, BorderLayout.NORTH);
+
+        JPanel playerStatisticsPanel = new JPanel(new GridLayout(2,2));
+        playerStatisticsPanel.setBackground(Color.LIGHT_GRAY);
+        playerStatisticsPanel.add(showPlayer1Name);
+        playerStatisticsPanel.add(showPlayer1Disks);
+        playerStatisticsPanel.add(showPlayer2Name);
+        playerStatisticsPanel.add(showPlayer2Disks);
+        statisticsPanel.add(playerStatisticsPanel, BorderLayout.CENTER);
+        statisticsPanel.add(mainMenuButton, BorderLayout.SOUTH);
         c.gridy = 0;
         c.gridx = 0;
         container.add(statisticsPanel, c);
@@ -132,6 +139,13 @@ public class GUIGameManager extends JFrame {
             int center = cellCenter / 2 - diskRadius / 2;
             points.add(new Point(center, center));
             graphicBoard[indexR][indexC].repaint();
+            if (currentColor) {
+                namePlayerTurn.setText(showPlayer1Name.getText()+"'s turn");
+                namePlayerTurn.setForeground(Color.BLACK);
+            } else {
+                namePlayerTurn.setText(showPlayer2Name.getText()+"'s turn");
+                namePlayerTurn.setForeground(Color.WHITE);
+            }
             numberOfMoves++;
             currentColor = !currentColor;
         }
