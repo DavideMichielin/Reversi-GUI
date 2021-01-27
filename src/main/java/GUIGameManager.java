@@ -2,11 +2,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class GUIGameManager extends JFrame {
+public class GUIGameManager extends JFrame implements ActionListener {
     private final JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private final int FRAME_SIZE = 700;
@@ -29,10 +31,10 @@ public class GUIGameManager extends JFrame {
         showPlayer1Disks = new JLabel("0", JLabel.CENTER); // conversione da int con un metodo che vede il numero di dischi
         showPlayer2Disks = new JLabel("0", JLabel.CENTER);
 
-        showPlayer1Name.setFont(new Font("Tahoma", Font.BOLD, 15));
-        showPlayer1Disks.setFont(new Font("Tahoma", Font.BOLD, 15));
-        showPlayer2Name.setFont(new Font("Tahoma", Font.BOLD, 15));
-        showPlayer2Disks.setFont(new Font("Tahoma", Font.BOLD, 15));
+        showPlayer1Name.setFont(new Font("Tahoma", Font.BOLD, 30));
+        showPlayer1Disks.setFont(new Font("Tahoma", Font.BOLD, 60));
+        showPlayer2Name.setFont(new Font("Tahoma", Font.BOLD, 30));
+        showPlayer2Disks.setFont(new Font("Tahoma", Font.BOLD, 60));
 
         TopPanel topPanel = new TopPanel();
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
@@ -42,7 +44,7 @@ public class GUIGameManager extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         JPanel statisticsPanel = new JPanel(new BorderLayout());
         statisticsPanel.setPreferredSize(new Dimension(300, FRAME_SIZE));
-        statisticsPanel.setBackground(Color.LIGHT_GRAY);
+        statisticsPanel.setBackground(Color.decode("#b0b0b0"));
         statisticsPanel.setBorder(new EmptyBorder(0,25,0,25));
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
@@ -51,16 +53,17 @@ public class GUIGameManager extends JFrame {
 
         JButton mainMenuButton = new JButton("Main Menu");
         mainMenuButton.setMaximumSize(new Dimension(30,10));
+        mainMenuButton.addActionListener(this);
 
         namePlayerTurn = new JLabel(namePlayer1+"'s Turn", JLabel.CENTER);
         namePlayerTurn.setBorder(new EmptyBorder(50, 0, 50, 0));
 
-        namePlayerTurn.setFont(new Font("Tahoma", Font.BOLD, 18));
+        namePlayerTurn.setFont(new Font("Tahoma", Font.BOLD, 30));
 
         statisticsPanel.add(namePlayerTurn, BorderLayout.NORTH);
 
-        JPanel playerStatisticsPanel = new JPanel(new GridLayout(2,2));
-        playerStatisticsPanel.setBackground(Color.LIGHT_GRAY);
+        JPanel playerStatisticsPanel = new JPanel(new GridLayout(4,1));
+        playerStatisticsPanel.setBackground(Color.decode("#b0b0b0"));
         playerStatisticsPanel.add(showPlayer1Name);
         playerStatisticsPanel.add(showPlayer1Disks);
         playerStatisticsPanel.add(showPlayer2Name);
@@ -80,6 +83,12 @@ public class GUIGameManager extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        new Start();
+        setVisible(false);
+
     }
 
     private JPanel createGridPanel(int dimensionBoard, final JFrame frame) {
