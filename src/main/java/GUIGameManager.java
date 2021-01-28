@@ -57,7 +57,6 @@ public class GUIGameManager extends JFrame implements ActionListener {
 
         namePlayerTurn = new JLabel(namePlayer1+"'s Turn", JLabel.CENTER);
         namePlayerTurn.setBorder(new EmptyBorder(50, 0, 50, 0));
-
         namePlayerTurn.setFont(new Font("Tahoma", Font.BOLD, 30));
 
         statisticsPanel.add(namePlayerTurn, BorderLayout.NORTH);
@@ -73,10 +72,32 @@ public class GUIGameManager extends JFrame implements ActionListener {
         c.gridy = 0;
         c.gridx = 0;
         container.add(statisticsPanel, c);
+        container.setBackground(Color.decode("#b0b0b0"));
 
-        JPanel boardPanel = createGridPanel(dimensionBoard, this);
+        JPanel boardPanel = new JPanel(new BorderLayout());
+        JPanel board = createGridPanel(dimensionBoard, this);
+
+        JPanel rowPanel = new JPanel(new GridLayout(dimensionBoard,1));
+        rowPanel.setBorder(new EmptyBorder(0,10,0,10));
+        rowPanel.setPreferredSize(new Dimension(30 ,FRAME_SIZE));
+        rowPanel.setBackground(Color.decode("#b0b0b0"));
+
+        boardPanel.add(board, BorderLayout.CENTER);
+        JPanel columPanel = new JPanel(new GridLayout(1, dimensionBoard+1));
+
+        columPanel.setBorder(new EmptyBorder(0, 30, 0,0));
+        columPanel.setBackground(Color.decode("#b0b0b0"));
+        for(int i = 0; i < dimensionBoard; i++){
+            char coloumValue = (char) (i+65);
+            columPanel.add(new JLabel(Character.toString(coloumValue), JLabel.CENTER));
+            rowPanel.add(new JLabel((i+1)+""));
+        }
+        boardPanel.add(columPanel, BorderLayout.NORTH);
+        boardPanel.add(rowPanel, BorderLayout.WEST);
+
         ++c.gridx;
         container.add(boardPanel, c);
+
         add(container);
         setResizable(false);
         setUndecorated(true);
@@ -132,7 +153,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
                 boardPanel.add(graphicBoard[indexRow][indexColumn]);
             }
         }
-        boardPanel.setPreferredSize(new Dimension(FRAME_SIZE, FRAME_SIZE));
+        boardPanel.setPreferredSize(new Dimension(700, 700));
         boardPanel.setBackground(Color.BLACK);
 
         return boardPanel;
@@ -168,4 +189,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
         diskIsPresent[x][y] = true;
     }
 
+    public static void main(String[] args) {
+        new GUIGameManager("a", "b", 26, "affio");
+    }
 }
