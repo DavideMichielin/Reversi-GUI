@@ -26,8 +26,9 @@ public class Online {
         c.gridy = 0;
 
         JRadioButton chooseHost = new JRadioButton("Host");
+        chooseHost.setActionCommand("host");
         JRadioButton chooseClient = new JRadioButton("Client");
-
+        chooseClient.setActionCommand("client");
         group = new ButtonGroup();
         group.add(chooseHost);
         group.add(chooseClient);
@@ -96,22 +97,22 @@ public class Online {
         }
     };
 
-        private final ActionListener controlRegularityOfSelectionAndPlay = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(group.getSelection() == null){
-                    JOptionPane.showMessageDialog(frame, "Please, make a selection",
-                            "Warning",
-                            JOptionPane.WARNING_MESSAGE);
-                }else if(!isIp(IPAddressHostPC.getText())){
-                    JOptionPane.showMessageDialog(frame, "Please, write a valid IP number",
-                            "Warning",
-                            JOptionPane.WARNING_MESSAGE);
-                }else{
-                    // creazione del gioco o join di una partita
-                }
+    private final ActionListener controlRegularityOfSelectionAndPlay = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (group.getSelection() == null) {
+                JOptionPane.showMessageDialog(frame, "Please, make a selection",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (group.getSelection().getActionCommand().equals("client")
+                    && !isIp(IPAddressHostPC.getText())) {
+                JOptionPane.showMessageDialog(frame, "Please, write a valid IP number",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
             }
-        };
+        }
+    };
 
     public static boolean isIp(String string) {
         String[] parts = string.split("\\.", -1);
@@ -121,5 +122,5 @@ public class Online {
                 .filter(i -> i <= 255 && i >= 0) // Must be inside [0, 255]
                 .count() == 4; // 4 numerical parts inside [0, 255]
     }
-    }
+}
 
