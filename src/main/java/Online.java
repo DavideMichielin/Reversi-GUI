@@ -8,17 +8,16 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-public class Online {
+public class Online extends JFrame{
 
     private String optionOnline[] = {"Host", "Client"};
     private final JLabel IPAddressThisPC = new JLabel();
     private final JTextField IPAddressHostPC = new JTextField("Insert IP Address");
     private final ButtonGroup group;
-    private final JFrame frame = new JFrame();
 
     public Online() {
-        TopPanel topPanel = new TopPanel(frame);
-        frame.add(topPanel.getTopPanel(), BorderLayout.NORTH);
+        TopPanel topPanel = new TopPanel(this);
+        add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
         JPanel container = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -55,7 +54,7 @@ public class Online {
         container.add(playButtonContainer, c);
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
-        frame.add(container, BorderLayout.CENTER);
+        add(container, BorderLayout.CENTER);
 
         chooseHost.addActionListener(manageWhichElementMustBeEnabled);
         chooseClient.addActionListener(manageWhichElementMustBeEnabled);
@@ -75,12 +74,12 @@ public class Online {
             }
         });
 
-        frame.setSize(500, 500);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); //center of the screen
-        frame.setUndecorated(true);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); //center of the screen
+        setUndecorated(true);
+        setResizable(false);
+        setVisible(true);
     }
 
     private final ActionListener manageWhichElementMustBeEnabled = new ActionListener() {
@@ -101,15 +100,16 @@ public class Online {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (group.getSelection() == null) {
-                JOptionPane.showMessageDialog(frame, "Please, make a selection",
+                JOptionPane.showMessageDialog(Online.this, "Please, make a selection",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
             } else if (group.getSelection().getActionCommand().equals("client")
                     && !isIp(IPAddressHostPC.getText())) {
-                JOptionPane.showMessageDialog(frame, "Please, write a valid IP number",
+                JOptionPane.showMessageDialog(Online.this, "Please, write a valid IP number",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
             } else {
+                System.out.println(IPAddressHostPC.getText());
             }
         }
     };

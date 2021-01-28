@@ -192,8 +192,4 @@ public class GUIGameManager extends JFrame implements ActionListener {
     private void setCell(int x, int y) {
         diskIsPresent[x][y] = true;
     }
-
-    public static void main(String[] args) {
-        new GUIGameManager("a", "b", 26, "affio");
-    }
 }
