@@ -4,8 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Arrays;
 
 public class Online extends JFrame {
@@ -39,11 +38,11 @@ public class Online extends JFrame {
         c.gridx = 0;
         ++c.gridy;
         try {
-            String hostIP = InetAddress.getLocalHost().getHostAddress();
+            String hostIP = Inet4Address.getLocalHost().getHostAddress();
             IPAddressThisPC.setText(hostIP);
             container.add(IPAddressThisPC, c);
 
-        } catch (UnknownHostException exception) {
+        } catch (UnknownHostException uhe) {
             System.out.println("Cannot take own IP address");
         }
         c.gridx = 2;

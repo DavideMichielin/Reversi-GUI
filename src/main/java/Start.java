@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Start extends JFrame implements ActionListener {
+public class Start extends JFrame {
     
     public Start() {
         
@@ -24,9 +24,18 @@ public class Start extends JFrame implements ActionListener {
         buttonMenu.add(oneVsCPU);
         buttonMenu.add(online);
         container.add(buttonMenu);
-        oneVsOne.addActionListener(this);
-        oneVsCPU.addActionListener(this);
-        online.addActionListener(this);
+        oneVsOne.addActionListener(e -> {
+            new OneVsOne();
+            setVisible(false);
+        });
+        oneVsCPU.addActionListener(e -> {
+            new OneVsCPU();
+            setVisible(false);
+        });
+        online.addActionListener(e -> {
+            new Online();
+            setVisible(false);
+        });
         MouseAdapter ma = new MouseAdapter() {
 
         };
@@ -39,7 +48,7 @@ public class Start extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
+    /*public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "1vs1":
                 new OneVsOne();
@@ -55,7 +64,7 @@ public class Start extends JFrame implements ActionListener {
                 break;
             default:
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         new Start();
