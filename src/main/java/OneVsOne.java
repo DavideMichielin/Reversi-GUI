@@ -17,7 +17,7 @@ public class OneVsOne extends JFrame implements ActionListener {
     public OneVsOne() {
         TopPanel topPanel = new TopPanel(this);
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
-
+        new DraggableFrame(this);
         JPanel container = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;

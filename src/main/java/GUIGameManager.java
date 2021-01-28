@@ -25,6 +25,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
         diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
         points = new ArrayList<>();
         diskRadius = (FRAME_SIZE/dimensionBoard)/2;
+        new DraggableFrame(this);
 
         showPlayer1Name = new JLabel(namePlayer1, JLabel.CENTER);
         showPlayer2Name = new JLabel(namePlayer2, JLabel.CENTER);

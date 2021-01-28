@@ -19,7 +19,7 @@ public class OneVsCPU extends JFrame implements ActionListener {
         //Difficoltà del pc (Mi sa proprio di no)
 
         //Tasto Play con relativi controlli
-
+        new DraggableFrame(this);
         TopPanel topPanel = new TopPanel(this);
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
 

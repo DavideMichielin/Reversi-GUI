@@ -8,14 +8,14 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-public class Online extends JFrame{
-
-    private String optionOnline[] = {"Host", "Client"};
+public class Online extends JFrame {
     private final JLabel IPAddressThisPC = new JLabel();
     private final JTextField IPAddressHostPC = new JTextField("Insert IP Address");
-    private final ButtonGroup group;
+    private ButtonGroup group;
+
 
     public Online() {
+        new DraggableFrame(this);
         TopPanel topPanel = new TopPanel(this);
         add(topPanel.getTopPanel(), BorderLayout.NORTH);
 
@@ -105,11 +105,10 @@ public class Online extends JFrame{
                         JOptionPane.WARNING_MESSAGE);
             } else if (group.getSelection().getActionCommand().equals("client")
                     && !isIp(IPAddressHostPC.getText())) {
-                JOptionPane.showMessageDialog(Online.this, "Please, write a valid IP number",
+                JOptionPane.showMessageDialog(Online.this , "Please, write a valid IP number",
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
             } else {
-                System.out.println(IPAddressThisPC.getText());
             }
         }
     };
