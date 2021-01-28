@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Start implements ActionListener {
+public class Start implements ActionListener,MouseListener,MouseMotionListener {
     private final JFrame frame;
-
+    private int lastX, lastY, pressedX, pressedY;
     public Start() {
         frame = new JFrame();
 
@@ -28,7 +28,11 @@ public class Start implements ActionListener {
         oneVsOne.addActionListener(this);
         oneVsCPU.addActionListener(this);
         online.addActionListener(this);
+        MouseAdapter ma = new MouseAdapter() {
 
+        };
+        frame.addMouseListener(this);
+        frame.addMouseMotionListener(this);
         frame.setSize(500, 300);
         frame.setLocationRelativeTo(null); //center of the screen
         frame.setUndecorated(true);
@@ -57,5 +61,44 @@ public class Start implements ActionListener {
 
     public static void main(String[] args) {
         new Start();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        pressedX = e.getX();
+        pressedY = e.getY();
+    }
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int x = e.getXOnScreen();
+        int y = e.getYOnScreen();
+        // Move frame by the mouse delta
+        frame.setLocation(x  - pressedX ,
+                y  - pressedY);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
 }

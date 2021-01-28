@@ -4,13 +4,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class TopPanel implements MouseListener{
+public class TopPanel implements MouseListener, MouseMotionListener {
     private final JPanel topPanel;
-    private final JFrame frame;
+    private JFrame frame;
 
     private JPanel createTopPanelRight(){
         JPanel topPanelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -31,7 +32,7 @@ public class TopPanel implements MouseListener{
         return topPanelRight;
     }
     public TopPanel(){
-        this.frame = null;
+        frame = new JFrame();
         topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBackground(Color.LIGHT_GRAY);
         topPanel.add(createTopPanelRight());
@@ -93,6 +94,16 @@ public class TopPanel implements MouseListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
 
     }
 
