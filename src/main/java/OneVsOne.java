@@ -78,7 +78,7 @@ public class OneVsOne extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "One or more player name is too long");
         } else {
             int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
-            new GUIGameManager(namePlayer1.getText(), namePlayer2.getText(), dimension, availableGameType.getSelectedItem().toString());
+            GameBuilder.create2PlayerGameWithGUI(dimension, namePlayer1.getText(), namePlayer2.getText(), availableGameType.getSelectedItem().toString());
             setVisible(false);
         }
     }

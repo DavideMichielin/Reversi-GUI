@@ -1,6 +1,6 @@
-public class GameFactory {
+public class GameBuilder {
 
-    public GameFactory() {
+    public GameBuilder() {
     }
 
     public static GUIGameManager create2PlayerGameWithGUI(int dimension, String namePlayer1, String namePlayer2, String gameType) {
