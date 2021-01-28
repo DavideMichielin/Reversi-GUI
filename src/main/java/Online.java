@@ -109,7 +109,7 @@ public class Online extends JFrame{
                         "Warning",
                         JOptionPane.WARNING_MESSAGE);
             } else {
-                System.out.println(IPAddressHostPC.getText());
+                System.out.println(IPAddressThisPC.getText());
             }
         }
     };
