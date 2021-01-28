@@ -159,12 +159,9 @@ public class GUIGameManager extends JFrame implements ActionListener {
             if ((indexR < dimensionBoard / 2 - 1 || indexR > dimensionBoard / 2) ||
                     (indexC < dimensionBoard / 2 - 1 || indexC > dimensionBoard / 2)) {
                 return false;
-            } else {
-                return true;
             }
-        } else {
-            return true;
         }
+        return true;
     }
 
     public void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame) {
