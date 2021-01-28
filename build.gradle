@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'application'
 }
 
 group 'org.example'
@@ -9,6 +9,18 @@ repositories {
     mavenCentral()
 }
 
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation(platform('org.junit:junit-bom:5.6.2'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application{
+    mainClassName = 'sdm.reversi.Main'
 }
