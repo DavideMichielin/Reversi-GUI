@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class OneVsOne extends JFrame implements ActionListener {
+public class OneVsOne extends JFrame {
     private final String[] dimensionOfBoard = {"4x4", "6x6", "8x8", "10x10", "12x12", "14x14",
             "16x16", "18x18", "20x20", "22x22", "24x24", "26x26"};
 
@@ -57,7 +57,20 @@ public class OneVsOne extends JFrame implements ActionListener {
         container.add(playButtonContainer, c);
         JButton playButton = new JButton("PLAY!");
         playButtonContainer.add(playButton);
-        playButton.addActionListener(this);
+        playButton.addActionListener(e -> {
+            //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
+            if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Insert both player name");
+            } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
+                JOptionPane.showMessageDialog(this, "Name must be different");
+            } else if (namePlayer1.getText().length() > 8 || namePlayer2.getText().length() > 8) {
+                JOptionPane.showMessageDialog(this, "One or more player name is too long");
+            } else {
+                int dimensionBoard = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
+                GameBuilder.create2PlayerGameWithGUI(dimensionBoard, namePlayer1.getText(), namePlayer2.getText(), availableGameType.getSelectedItem().toString());
+                setVisible(false);
+            }
+        });
 
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -65,21 +78,5 @@ public class OneVsOne extends JFrame implements ActionListener {
         setUndecorated(true);
         setResizable(false);
         setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        //invece di fare questo controllo ci sta chiamare il costruttore del "back-end" e vedere se lancia l'eccezione
-        if (namePlayer1.getText().isEmpty() || namePlayer2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Insert both player name");
-        } else if (namePlayer1.getText().equals(namePlayer2.getText())) {
-            JOptionPane.showMessageDialog(this, "Name must be different");
-        } else if (namePlayer1.getText().length() > 8 || namePlayer2.getText().length() > 8) {
-            JOptionPane.showMessageDialog(this, "One or more player name is too long");
-        } else {
-            int dimension = Integer.parseInt(availableDimension.getSelectedItem().toString().split("x")[0]);
-            GameBuilder.create2PlayerGameWithGUI(dimension, namePlayer1.getText(), namePlayer2.getText(), availableGameType.getSelectedItem().toString());
-            setVisible(false);
-        }
     }
 }

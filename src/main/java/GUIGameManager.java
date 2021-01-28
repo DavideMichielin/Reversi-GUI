@@ -2,13 +2,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class GUIGameManager extends JFrame implements ActionListener {
+public class GUIGameManager extends JFrame {
     private final JLabel showPlayer1Name, showPlayer2Name, showPlayer1Disks, showPlayer2Disks;
     private final JPanel[][] graphicBoard;
     private final int FRAME_SIZE = 700;
@@ -24,7 +22,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
         graphicBoard = new JPanel[dimensionBoard][dimensionBoard];
         diskIsPresent = new boolean[dimensionBoard][dimensionBoard];
         points = new ArrayList<>();
-        diskRadius = (FRAME_SIZE/dimensionBoard)/2;
+        diskRadius = (FRAME_SIZE / dimensionBoard) / 2;
         new DraggableFrame(this);
 
         showPlayer1Name = new JLabel(namePlayer1, JLabel.CENTER);
@@ -46,23 +44,26 @@ public class GUIGameManager extends JFrame implements ActionListener {
         JPanel statisticsPanel = new JPanel(new BorderLayout());
         statisticsPanel.setPreferredSize(new Dimension(300, FRAME_SIZE));
         statisticsPanel.setBackground(Color.decode("#b0b0b0"));
-        statisticsPanel.setBorder(new EmptyBorder(0,25,0,25));
+        statisticsPanel.setBorder(new EmptyBorder(0, 25, 0, 25));
         showPlayer1Name.setForeground(Color.BLACK);
         showPlayer1Disks.setForeground(Color.BLACK);
         showPlayer2Name.setForeground(Color.WHITE);
         showPlayer2Disks.setForeground(Color.WHITE);
 
         JButton mainMenuButton = new JButton("Main Menu");
-        mainMenuButton.setMaximumSize(new Dimension(30,10));
-        mainMenuButton.addActionListener(this);
+        mainMenuButton.setMaximumSize(new Dimension(30, 10));
+        mainMenuButton.addActionListener(e -> {
+            new Start();
+            setVisible(false);
+        });
 
-        namePlayerTurn = new JLabel(namePlayer1+"'s Turn", JLabel.CENTER);
+        namePlayerTurn = new JLabel(namePlayer1 + "'s Turn", JLabel.CENTER);
         namePlayerTurn.setBorder(new EmptyBorder(50, 0, 50, 0));
         namePlayerTurn.setFont(new Font("Tahoma", Font.BOLD, 30));
 
         statisticsPanel.add(namePlayerTurn, BorderLayout.NORTH);
 
-        JPanel playerStatisticsPanel = new JPanel(new GridLayout(4,1));
+        JPanel playerStatisticsPanel = new JPanel(new GridLayout(4, 1));
         playerStatisticsPanel.setBackground(Color.decode("#b0b0b0"));
         playerStatisticsPanel.add(showPlayer1Name);
         playerStatisticsPanel.add(showPlayer1Disks);
@@ -78,22 +79,22 @@ public class GUIGameManager extends JFrame implements ActionListener {
         JPanel boardPanel = new JPanel(new BorderLayout());
         JPanel board = createGridPanel(dimensionBoard, this);
 
-        JPanel rowPanel = new JPanel(new GridLayout(dimensionBoard,1));
-        rowPanel.setBorder(new EmptyBorder(0,10,0,10));
-        rowPanel.setPreferredSize(new Dimension(30 ,FRAME_SIZE));
+        JPanel rowPanel = new JPanel(new GridLayout(dimensionBoard, 1));
+        rowPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
+        rowPanel.setPreferredSize(new Dimension(30, FRAME_SIZE));
         rowPanel.setBackground(Color.decode("#b0b0b0"));
 
         boardPanel.add(board, BorderLayout.CENTER);
-        JPanel columPanel = new JPanel(new GridLayout(1, dimensionBoard+1));
+        JPanel columnPanel = new JPanel(new GridLayout(1, dimensionBoard + 1));
 
-        columPanel.setBorder(new EmptyBorder(0, 30, 0,0));
-        columPanel.setBackground(Color.decode("#b0b0b0"));
-        for(int i = 0; i < dimensionBoard; i++){
-            char coloumValue = (char) (i+65);
-            columPanel.add(new JLabel(Character.toString(coloumValue), JLabel.CENTER));
-            rowPanel.add(new JLabel((i+1)+""));
+        columnPanel.setBorder(new EmptyBorder(0, 30, 0, 0));
+        columnPanel.setBackground(Color.decode("#b0b0b0"));
+        for (int i = 0; i < dimensionBoard; i++) {
+            char columnValue = (char) (i + 65);
+            columnPanel.add(new JLabel(Character.toString(columnValue), JLabel.CENTER));
+            rowPanel.add(new JLabel((i + 1) + ""));
         }
-        boardPanel.add(columPanel, BorderLayout.NORTH);
+        boardPanel.add(columnPanel, BorderLayout.NORTH);
         boardPanel.add(rowPanel, BorderLayout.WEST);
 
         ++c.gridx;
@@ -105,12 +106,6 @@ public class GUIGameManager extends JFrame implements ActionListener {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        new Start();
-        setVisible(false);
-
     }
 
     private JPanel createGridPanel(int dimensionBoard, final JFrame frame) {
@@ -139,9 +134,9 @@ public class GUIGameManager extends JFrame implements ActionListener {
                 graphicBoard[indexRow][indexColumn].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if(isValidMove(indexR, indexC, dimensionBoard, frame)){
+                        if (isValidMove(indexR, indexC, dimensionBoard, frame)) {
                             doMove(indexR, indexC, dimensionBoard, frame);
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(frame, "Invalid First Position");
                         }
                     }
@@ -155,7 +150,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
         return boardPanel;
     }
 
-    public boolean isValidMove(int indexR, int indexC, int dimensionBoard, final JFrame frame){
+    public boolean isValidMove(int indexR, int indexC, int dimensionBoard, final JFrame frame) {
         if (numberOfMoves < 4) {
             if ((indexR < dimensionBoard / 2 - 1 || indexR > dimensionBoard / 2) ||
                     (indexC < dimensionBoard / 2 - 1 || indexC > dimensionBoard / 2)) {
@@ -175,10 +170,10 @@ public class GUIGameManager extends JFrame implements ActionListener {
             points.add(new Point(center, center));
             graphicBoard[indexR][indexC].repaint();
             if (currentColor) {
-                namePlayerTurn.setText(showPlayer1Name.getText()+"'s turn");
+                namePlayerTurn.setText(showPlayer1Name.getText() + "'s turn");
                 namePlayerTurn.setForeground(Color.BLACK);
             } else {
-                namePlayerTurn.setText(showPlayer2Name.getText()+"'s turn");
+                namePlayerTurn.setText(showPlayer2Name.getText() + "'s turn");
                 namePlayerTurn.setForeground(Color.WHITE);
             }
             numberOfMoves++;
