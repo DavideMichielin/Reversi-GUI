@@ -36,9 +36,6 @@ public class Start extends JFrame {
             new Online();
             setVisible(false);
         });
-        MouseAdapter ma = new MouseAdapter() {
-
-        };
 
         setSize(500, 300);
         setLocationRelativeTo(null); //center of the screen
@@ -47,24 +44,6 @@ public class Start extends JFrame {
         setTitle("Othello-Reversi Menu");
         setVisible(true);
     }
-
-    /*public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case "1vs1":
-                new OneVsOne();
-                setVisible(false);
-                break;
-            case "vsComputer":
-                new OneVsCPU();
-                setVisible(false);
-                break;
-            case "Online":
-                new Online();
-                setVisible(false);
-                break;
-            default:
-        }
-    }*/
 
     public static void main(String[] args) {
         new Start();
