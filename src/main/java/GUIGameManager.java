@@ -138,7 +138,9 @@ public class GUIGameManager extends JFrame implements ActionListener {
                 graphicBoard[indexRow][indexColumn].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if(!isValidMove(indexR, indexC, dimensionBoard, frame)){
+                        if(isValidMove(indexR, indexC, dimensionBoard, frame)){
+                            doMove(indexR, indexC, dimensionBoard, frame);
+                        }else{
                             JOptionPane.showMessageDialog(frame, "Invalid First Position");
                         }
                     }
@@ -158,11 +160,9 @@ public class GUIGameManager extends JFrame implements ActionListener {
                     (indexC < dimensionBoard / 2 - 1 || indexC > dimensionBoard / 2)) {
                 return false;
             } else {
-                doMove(indexR, indexC, dimensionBoard, frame);
                 return true;
             }
         } else {
-            doMove(indexR, indexC, dimensionBoard, frame);
             return true;
         }
     }
