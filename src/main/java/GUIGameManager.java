@@ -160,7 +160,7 @@ public class GUIGameManager extends JFrame implements ActionListener {
     }
 
 
-    private void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame) {
+    public void doMove(int indexR, int indexC, int dimensionBoard, final JFrame frame) {
         if (isSetDisk(indexR, indexC)) {
             JOptionPane.showMessageDialog(frame, "Invalid Position");
         } else {
