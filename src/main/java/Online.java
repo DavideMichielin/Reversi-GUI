@@ -10,7 +10,12 @@ import java.util.Arrays;
 public class Online extends JFrame {
     private final JLabel IPAddressThisPC = new JLabel();
     private final JTextField IPAddressHostPC = new JTextField("Insert IP Address");
+    private final JComboBox<String> availableDimension;
     private ButtonGroup group;
+    private final String[] dimensionOfBoard = {"4x4", "6x6", "8x8", "10x10", "12x12", "14x14",
+            "16x16", "18x18", "20x20", "22x22", "24x24", "26x26"};
+    private JTextField playerName;
+
 
 
     public Online() {
@@ -47,6 +52,21 @@ public class Online extends JFrame {
         }
         c.gridx = 2;
         container.add(IPAddressHostPC, c);
+        ++c.gridy;
+        c.gridx = 0;
+        JLabel playerLabel = new JLabel("Insert your name");
+        container.add(playerLabel, c);
+        c.gridx = 2;
+        JLabel sizeBoardLabel = new JLabel("Choose board size:");
+        container.add(sizeBoardLabel, c);
+        ++c.gridy;
+        c.gridx = 0;
+        playerName = new JTextField("Bob");
+        playerName.setPreferredSize(new Dimension(100,24));
+        container.add(playerName, c);
+        c.gridx = 2;
+        availableDimension = new JComboBox<>(dimensionOfBoard);
+        container.add(availableDimension, c);
         ++c.gridy;
         c.gridx = 1;
         JPanel playButtonContainer = new JPanel();
@@ -88,9 +108,13 @@ public class Online extends JFrame {
             if (pressedRadioButton.getText().equals("Host")) {
                 IPAddressThisPC.setEnabled(true);
                 IPAddressHostPC.setEnabled(false);
+                playerName.setEnabled(true);
+                availableDimension.setEnabled(true);
             } else {
                 IPAddressHostPC.setEnabled(true);
                 IPAddressThisPC.setEnabled(false);
+                playerName.setEnabled(false);
+                availableDimension.setEnabled(false);
             }
         }
     };
